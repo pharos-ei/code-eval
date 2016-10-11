@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"math/rand"
 	"net/http"
 	"time"
 )
@@ -58,6 +60,11 @@ func createPrices(locations Locations) Prices {
 }
 
 func (locations Locations) endPoint(w http.ResponseWriter, r *http.Request) {
+
+	if failure(w, r) == true {
+		return
+	}
+
 	body, _ := json.Marshal(locations)
 	fmt.Fprintf(w, string(body))
 }
@@ -65,9 +72,7 @@ func (locations Locations) endPoint(w http.ResponseWriter, r *http.Request) {
 func (prices Prices) endPoint(w http.ResponseWriter, r *http.Request) {
 	counter = counter + 1
 
-	if counter == 3 {
-		counter = 0
-		http.Error(w, "Unhelpful error message", http.StatusInternalServerError)
+	if failure(w, r) == true {
 		return
 	}
 
@@ -82,6 +87,23 @@ func (prices Prices) endPoint(w http.ResponseWriter, r *http.Request) {
 
 	body, _ := json.Marshal(found)
 	fmt.Fprintf(w, string(body))
+}
+
+func failure(w http.ResponseWriter, r *http.Request) bool {
+	n := rand.Intn(8)
+	log.Printf("rand %d", n)
+	if n > 6 {
+		time.Sleep(5 * time.Second)
+	}
+
+	counter = counter + 1
+	if counter == 3 {
+		counter = 0
+		http.Error(w, "Unhelpful error message", http.StatusInternalServerError)
+		return true
+	}
+
+	return false
 }
 
 var counter = 0
