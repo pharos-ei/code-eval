@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"math/rand"
 	"net/http"
 	"time"
@@ -91,7 +90,6 @@ func (prices Prices) endPoint(w http.ResponseWriter, r *http.Request) {
 
 func failure(w http.ResponseWriter, r *http.Request) bool {
 	n := rand.Intn(8)
-	log.Printf("rand %d", n)
 	if n > 6 {
 		time.Sleep(5 * time.Second)
 	}
@@ -114,5 +112,7 @@ func main() {
 
 	http.HandleFunc("/locations", locs.endPoint)
 	http.HandleFunc("/prices", prices.endPoint)
+
+	fmt.Print("Starting the Pharos Code Eval server.  Happy Coding.\n")
 	http.ListenAndServe(":4000", nil)
 }
