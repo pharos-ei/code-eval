@@ -12,7 +12,7 @@ Timestamp,Location,Price
 2016-01-02T11:00:00-0700,Unit B,13.04
 ```
 
-The report should be writen out to `./reports/report.csv` and ordered by
+The report should be writen out to `./report.csv` and ordered by
 Timestamp, Location. The final application should be able to generate the report with a single command.
 
 ### Process
@@ -27,8 +27,7 @@ prepared for an intermittent error.
 
 ### Tools
 
-There is a Gemfile which you can modify as needed with any gem you need. Any
-version of Ruby is fine.
+Use only the Ruby standard library using Ruby 2.1+.
 
 ### Getting started
 
