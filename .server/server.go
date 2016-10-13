@@ -95,7 +95,7 @@ func failure(w http.ResponseWriter, r *http.Request) bool {
 	}
 
 	counter = counter + 1
-	if counter == 3 {
+	if counter > 2 {
 		counter = 0
 		http.Error(w, "Unhelpful error message", http.StatusInternalServerError)
 		return true
